@@ -46,7 +46,7 @@ def findMaxPalindrome(digits):
     x = maxNum
     y = maxNum
     solved = False
-    # I'm postulating that this fill find the maximum palindrome first
+    # I'm postulating that this will find the maximum palindrome first
     # if not, I'll need to add all palindromes found to a list and then
     # find max later.
     while(i > 0):
