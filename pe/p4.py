@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+# Project Euler problem 4
 # Find the largest palindrome made from the product of two 3 digit numbers
-# e.g. for two digit numbers: 91 x 99 = 9009 
+# e.g. for two digit numbers: 91 x 99 = 9009
 
 # I am going to attempt this by using an index or degree or something
 # I don't remember the mathematical term, but instead of looping from
@@ -32,8 +33,8 @@ def main(args):
         maxDigits = 3
     palindrome = findMaxPalindrome(maxDigits)
     print("Largest palindrome with " + str(maxDigits) + " is " +
-            str(palindrome.value) + " from " + str(palindrome.x) + 
-            " and " + str(palindrome.y) + " and it is " + 
+            str(palindrome.value) + " from " + str(palindrome.x) +
+            " and " + str(palindrome.y) + " and it is " +
             ("valid." if palindrome.valid else "not valid."))
 
 def findMaxPalindrome(digits):
