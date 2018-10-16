@@ -13,7 +13,6 @@ def main(args):
     else:
         nthPrime = 10001
     primes = generateNPrimes(nthPrime)
-
     print("The " + str(nthPrime) + ordinal(nthPrime)
           + " is " + str(primes[-1]))
 
@@ -23,6 +22,8 @@ def ordinal(i):
                3:"rd"}
     if castNumber(i):
         i = int(float(i))
+        if i%100>3 and i%100<14:
+            return "th"
         return ending.get(i%10,"th")
     else:
         return ""
