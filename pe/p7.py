@@ -14,7 +14,8 @@ def main(args):
         nthPrime = 10001
     primes = generateNPrimes(nthPrime)
 
-    print("The " + nthPrime + ordinal(nthPrime) + " is " + primes[-1])
+    print("The " + str(nthPrime) + ordinal(nthPrime)
+          + " is " + str(primes[-1]))
 
 def ordinal(i):
     ending = { 1:"st",
@@ -52,7 +53,7 @@ def generateNPrimes(nthPrime):
             primeList.append(primeCandidate+1)
 
     # might have generated 1 extra prime above nthPrime
-    if primeList[len(primeList)-1] > nthPrime:
+    if len(primeList) > nthPrime:
         primeList.pop(-1)
     return primeList
 
