@@ -10,7 +10,7 @@ def main(args):
     else:
         # Use default parameters
 
-def castNumber(n):
+def cast_number(n):
     if is_intstring(n):
         return int(n)
     elif is_floatstring(n):
