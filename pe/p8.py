@@ -38,16 +38,20 @@ def main(args):
         digits = 13
     print(f"{len(nums)} digit number.")
     print(f"Finding the {digits} consecutive digits with the largest product")
-    test = [3,5,8]
-    print(list_product(test))
+    print(max_product_slice(nums,digits))
 
 def max_product_slice(list,size):
-
+    max = 0;
+    product = 0;
+    for x in range(len(list)-size+1): # size is inclusive, so we need +1
+        product = list_product(list[x:x+size])
+        if product > max: max = product
+    return max
 
 def list_product(list):
     val = 1
     for x in list:
-        val *= x
+        val *= int(x)
     return val
 
 def cast_number(n):
