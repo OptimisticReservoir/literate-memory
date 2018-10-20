@@ -44,16 +44,15 @@ def generate_primes_below(max_prime):
     else:
         return primeList
 
-    while(primeList[-1] < max_prime and primeCandidate < max_prime):
+    while(primeList[-1] < max_prime and primeCandidate+5 < max_prime):
+        # +5 because we are going to add 6 then subtract 1.
         primeCandidate += 6
         if checkPrime(primeCandidate-1,primeList):
             primeList.append(primeCandidate-1)
         if checkPrime(primeCandidate+1,primeList):
             primeList.append(primeCandidate+1)
 
-    # might have generated 2 extra primes above max_prime
-    if primeList[-1] > max_prime:
-        primeList.pop(-1)
+    # might have generated 1 extra prime above max_prime
     if primeList[-1] > max_prime:
         primeList.pop(-1)
     return primeList
