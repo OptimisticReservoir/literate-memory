@@ -1,0 +1,3 @@
+In this directory are python solutions to Project Euler problems.
+Please only view these solutions to compare with your own solutions.
+Viewing the solution before solving it on your own can ruin the experience.
