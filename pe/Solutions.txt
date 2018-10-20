@@ -1,0 +1,5 @@
+I'd like to make a way to encrypt the solution code
+and make it accessible only after entering the password.
+
+Something like a run.sh script that would ask for a password,
+then decrypt the .pye file, run it, then delete the .py file.
