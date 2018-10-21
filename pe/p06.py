@@ -5,40 +5,18 @@
 
 import sys
 
+from functions import castNumber
+from functions import sum_square_difference
+
 def main(args):
     maxNum = 0
     if(len(args)>1 and castNumber(args[1])):
         maxNum = int(float(args[1]))
     else:
         maxNum = 100
-    sumAll = sum(range(maxNum+1))
-    sumSquares = 0
-    for x in range(maxNum+1):
-        sumSquares += x**2
+    numList = [*range(maxNum+1)]
+    ssd = sum_square_difference(numList)
     print("Sum squares difference for numbers 1 to "
-          + str(maxNum) + " is " + str(sumAll**2-sumSquares))
-
-def castNumber(n):
-    if is_intstring(n):
-        return int(n)
-    elif is_floatstring(n):
-        return float(n)
-    else:
-        return None
-
-def is_floatstring(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-def is_intstring(s):
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
+          + f"{maxNum} is {ssd}")
 
 main(sys.argv)
