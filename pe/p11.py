@@ -35,87 +35,26 @@ NUMBER_ARRAY = '''
 
 import sys
 
+from functions import print_2d
+trim_empties
+make_2d_array
+max_product_2d_search
+
 def main(args):
-    if(len(args)>1):
-        num_array = args[1]
-    else:
+    size = 0
+    maximum = 0
+    if (len(args)>2):
+        size = args[1]
+        num_array = args[2]
+    elif ((len(args)>1):
+        size = args[1]
         num_array = NUMBER_ARRAY
-    line_array = trim_empties(num_array.split('\n'))
-    int_2d_array = []
-    row = 0
-    for s in line_array:
-        int_2d_array.append(str_list_to_int(s.split(" ")))
-    print_2d(int_2d_array)
-
-def trim_empties(list):
-    try:
-        while(1):
-            list.remove("")
-    except ValueError:
-        return list
-
-
-def castNumber(n):
-    if is_intstring(n):
-        return int(n)
-    elif is_floatstring(n):
-        return float(n)
     else:
-        return None
-
-def is_floatstring(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-def is_intstring(s):
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
-def str_list_to_int(str_list):
-    int_list = []
-    for s in str_list:
-        int_list.append(castNumber(s))
-    return int_list
-
-# finds digits in the integer part of the number
-def i_digits(x):
-    extra = 0
-    if x < 0:
-        x = abs(x)
-        extra = 1
-    d = 1
-    while(x > 10**d):
-        d +=1
-    return d + extra
-
-def print_2d(list_2d):
-    # get row with largest value, then get largestvalue
-    maximum = max(max(list_2d))
-    digits = i_digits(maximum)
-    #print(f"Max: {maximum} and digits: {digits}")
-    output = ""
-    x_sign = 0
-    filler_char = "0" # " " also looks good
-    for row in list_2d:
-        for x in row:
-            d = digits - 1
-            x_sign = -1 if x < 0 else 0
-            x = abs(x) # so we can compare to 10**d
-            d += x_sign # 1 less digit for the negative sign.
-            if x_sign:
-                output += "-"
-            while(x < 10**d and d>0):
-                output += filler_char
-                d -= 1
-            output += str(x)
-            output += " "
-        output += "\n"
-    print(output[:-1])
+        size = 4
+        num_array = NUMBER_ARRAY
+    int_2d_array = make_2d_array(trim_empties(num_array.split('\n')))
+    print_2d(int_2d_array, "0")
+    maximum = max_product_2d_search()
+    print(f"The max product of length {size} in this grid is: {maximum}")
 
 main(sys.argv)
