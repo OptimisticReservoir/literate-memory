@@ -7,11 +7,11 @@ class ProductPalindrome:
     x -- integer
     y -- integer
     value -- x*y
-    valid -- True/False based on isPalindrome()
+    valid -- True/False based on is_palindrome()
     """
     def __init__(self, x=0, y=0):
-        from functions import isPalindrome
+        from functions import is_palindrome
         self.x = x
         self.y = y
         self.value = x*y
-        self.valid = isPalindrome(self.value)
+        self.valid = is_palindrome(self.value)
