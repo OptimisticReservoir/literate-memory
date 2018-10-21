@@ -22,7 +22,7 @@ import math
 import sys
 
 from functions import cast_number
-from functions import findMaxPalindrome
+from functions import find_max_palindrome
 from classes import ProductPalindrome
 
 def main(args):
@@ -34,7 +34,7 @@ def main(args):
     else:
         # Use default parameters
         maxDigits = 3
-    palindrome = findMaxPalindrome(maxDigits)
+    palindrome = find_max_palindrome(maxDigits)
     print("Largest palindrome with " + str(maxDigits) + " is " +
             str(palindrome.value) + " from " + str(palindrome.x) +
             " and " + str(palindrome.y) + " and it is " +

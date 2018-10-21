@@ -6,7 +6,7 @@
 
 import sys
 from functions import ordinal
-from functions import generateNPrimes
+from functions import generate_n_primes
 
 def main(args):
     nthPrime = 0
@@ -14,7 +14,7 @@ def main(args):
         nthPrime = int(float(args[1]))
     else:
         nthPrime = 10001
-    primes = generateNPrimes(nthPrime)
+    primes = generate_n_primes(nthPrime)
     print("The " + str(nthPrime) + ordinal(nthPrime)
           + " is " + str(primes[-1]))
 
