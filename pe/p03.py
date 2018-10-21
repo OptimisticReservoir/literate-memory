@@ -3,6 +3,7 @@
 # Find largest prime factor of 600851475143
 
 import sys
+
 from functions import castNumber
 from functions import LPF
 

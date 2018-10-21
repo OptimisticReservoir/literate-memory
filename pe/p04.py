@@ -20,6 +20,7 @@
 
 import math
 import sys
+
 from functions import castNumber
 from functions import findMaxPalindrome
 from classes import ProductPalindrome
