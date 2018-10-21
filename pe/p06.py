@@ -5,12 +5,12 @@
 
 import sys
 
-from functions import castNumber
+from functions import cast_number
 from functions import sum_square_difference
 
 def main(args):
     maxNum = 0
-    if(len(args)>1 and castNumber(args[1])):
+    if(len(args)>1 and cast_number(args[1])):
         maxNum = int(float(args[1]))
     else:
         maxNum = 100

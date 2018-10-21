@@ -21,14 +21,14 @@
 import math
 import sys
 
-from functions import castNumber
+from functions import cast_number
 from functions import findMaxPalindrome
 from classes import ProductPalindrome
 
 def main(args):
     maxDigits = 0
     palindrome = ProductPalindrome()
-    if(len(args)>1 and castNumber(args[1])):
+    if(len(args)>1 and cast_number(args[1])):
         # Use passed arguments
         maxDigits = int(float(args[1]))
     else:

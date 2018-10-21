@@ -10,7 +10,7 @@ from functions import generateNPrimes
 
 def main(args):
     nthPrime = 0
-    if(len(args)>1 and castNumber(args[1])):
+    if(len(args)>1 and cast_number(args[1])):
         nthPrime = int(float(args[1]))
     else:
         nthPrime = 10001

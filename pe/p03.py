@@ -4,11 +4,11 @@
 
 import sys
 
-from functions import castNumber
+from functions import cast_number
 from functions import LPF
 
 def main(args):
-    if(len(args)>1 and castNumber(args[1])):
+    if(len(args)>1 and cast_number(args[1])):
         number = int(float(args[1]))
     else:
         number = 600851475143

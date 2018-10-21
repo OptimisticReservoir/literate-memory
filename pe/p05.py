@@ -6,11 +6,11 @@
 import sys
 
 from functions import lcm
-from functions import castNumber
+from functions import cast_number
 
 def main(args):
     maxNum = 0
-    if(len(args)>1 and castNumber(args[1])):
+    if(len(args)>1 and cast_number(args[1])):
         maxNum = int(float(args[1]))
     else:
         maxNum = 20
