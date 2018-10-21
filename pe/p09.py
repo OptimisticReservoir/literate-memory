@@ -18,7 +18,7 @@
 # we can quickly figure out what is valid.
 # if we let x = average of a and b, then x = (index - c)/2
 # then we can let a = x - y and b = x + y.
-# If x is odd, y will be int + 0.5
+# If c-x is odd, y will be int + 0.5
 # then a**2 + b**2 = 2x**2 + 2y**2
 
 # For a given c, x is fixed.
@@ -38,8 +38,9 @@ def main(args):
         index = int(float(args[1]))
     else:
         index = 1000
-    result = find_pythagorean_triple(index)
-    print_pythagorean_triple(result,index)
+    timed_run(index)
+    #result = find_pythagorean_triple(index)
+    #print_pythagorean_triple(result,index)
 
 
 def timed_run(index):
