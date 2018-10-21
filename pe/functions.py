@@ -1,5 +1,90 @@
 # Python module for my Project Euler functions
 
+def ordinal(i):
+    """ Returns the ordinal ending, e.g. 'st' for 1"""
+    ending = { 1:"st",
+               2:"nd",
+               3:"rd"}
+    if castNumber(i):
+        i = int(float(i))
+        if i%100>3 and i%100<14:
+            return "th"
+        return ending.get(i%10,"th")
+    else:
+        return ""
+def sum_square_difference(numList):
+    """
+    Sum square difference of a list
+
+    Calculates the difference between the square of the sum and
+    the sum of the squares.
+    e.g. (a+b+c)**2 - (a**2 + b**2 + c**2)
+    """
+    square_sum_all = sum(numList)**2
+    sum_squares = 0
+    for x in numList:
+        sum_squares += x**2
+    return square_sum_all - sum_squares
+def lcm(numList):
+    """
+    Find lowest common multiple of number list
+
+    numList - list of integers to use
+
+    Will factor each number in the list,
+    then find LCM using dictionaryProduct.
+    """
+    primeList = generatePrimes(max(numList))
+    # Initialize the factor dictionary to 0:
+    primeDict = dict.fromkeys(primeList,0)
+    for x in numList: # will stop at maxNum
+        primeDict = primeFactor(x,primeDict)
+        #print(primeDict)
+    return dictionaryProduct(primeDict)
+def dictionaryProduct(numDict):
+    """
+    Find the product of dictionary: key**value
+
+    numDict -- dictionary: {int: int, int: int ...}
+
+    Calculates the product of all keys multiplied together.
+    Each key counts value times.
+    So, key1**value1 * key2**value2 * etc.
+    """
+    product = 1
+    for x in numDict:
+        product *= x ** numDict[x]
+    return product
+def primeFactor(num, prime_dict_original):
+    """
+    Factors given number using prime dictionary
+
+    num -- number to factor (integer)
+    prime_dict_original -- dictionary of prime numbers as keys.
+                         The values are how many of each prime.
+                         This allows comparison across mulitple runs.
+
+    The dictionary is used because it keeps track of the factors.
+    This implementation is used for function Lowest Common Multiple.
+    To factor just a single number, send values as 0s.
+    If num can already be made by the existing prime_dict values,
+    then no changes are made.
+    """
+    q = num # q for quotient
+    prime_dict = prime_dict_original
+    # prime_dict = prime_dict_original.copy() #uncomment to preserve original
+    for x in prime_dict:
+        i = 0
+        while q % x == 0:
+            q /= x
+            i += 1
+        if i > prime_dict[x]:
+            prime_dict[x] = i
+    if q != 1:
+        prime_dict[q] = 1 # add the remaining quotient to the end
+                          # this is like a remainder in the event
+                          # primeList was incomplete
+    return prime_dict
 def findMaxPalindrome(digits):
     from classes import ProductPalindrome
     """
@@ -53,6 +138,36 @@ def isPalindrome(s):
     #    i += 1
     #return True
     return s == s[::-1]
+def generateNPrimes(nthPrime):
+    """
+    Generates a list of n primes
+
+    nthPrime -- How many primes to getnerate (integer)
+    returns the list of n primes
+    """
+    nthPrime = int(nthPrime)
+    primeList = []
+    primeCandidate = 0
+    if 1 <= nthPrime:
+        primeList.append(2)
+    else:
+        return primeList
+    if 2 <= nthPrime:
+        primeList.append(3)
+    else:
+        return primeList
+
+    while(len(primeList)<nthPrime):
+        primeCandidate += 6
+        if checkPrime(primeCandidate-1,primeList):
+            primeList.append(primeCandidate-1)
+        if checkPrime(primeCandidate+1,primeList):
+            primeList.append(primeCandidate+1)
+
+    # might have generated 1 extra prime above nthPrime
+    if len(primeList) > nthPrime:
+        primeList.pop(-1)
+    return primeList
 def generatePrimes(maxPrime):
     """
     Generates a list of primes up to a maximum value
