@@ -1,18 +1,159 @@
 # Python module for my Project Euler functions
 
+def max_product_2d_search(list_2d,size=4,dir=[(0,1),(1,0),(1,1),(1,-1)]):
+    """
+    Scans a 2D list and tests products to find the maximum.
+
+    list_2d -- list of integer lists: [[int,int,int][int,int,int][...]]
+    size -- how many adjacent numbers to use.
+    dir -- directions to search. [(x,y),(x,y),(...)]
+    """
+def make_2d_array(str_list):
+    """ Converts a list of strings containing ints into a 2d array."""
+    int_2d_array = []
+    row = 0
+    for s in str_list:
+        int_2d_array.append(str_list_to_int(s.split(" ")))
+    return int_2d_array
+def i_digits(x):
+    """ Finds digits in the integer part of the number. """
+    extra = 0
+    if x < 0:
+        x = abs(x)
+        extra = 1
+    d = 1
+    while(x > 10**d):
+        d +=1
+    return d + extra
+def str_list_to_int(str_list):
+    """ Converts list of strings to list of ints. """
+    int_list = []
+    for s in str_list:
+        int_list.append(cast_number(s))
+    return int_list
+def trim_empties(list):
+    """ Removes empty ('') values from the list. """
+    try:
+        while(1):
+            list.remove("")
+    except ValueError:
+        return list
+def print_2d(list_2d, filler_char="0"):
+    """ Prints the 2d array of integers nicely formatted. """
+    # get row with largest value, then get largestvalue
+    maximum = max(max(list_2d))
+    digits = i_digits(maximum)
+    #print(f"Max: {maximum} and digits: {digits}")
+    output = ""
+    x_sign = 0
+    for row in list_2d:
+        for x in row:
+            d = digits - 1
+            x_sign = -1 if x < 0 else 0
+            x = abs(x) # so we can compare to 10**d
+            d += x_sign # 1 less digit for the negative sign.
+            if x_sign:
+                output += "-"
+            while(x < 10**d and d>0):
+                output += filler_char
+                d -= 1
+            output += str(x)
+            output += " "
+        output += "\n"
+    print(output[:-1])
+def print_pythagorean_triple(p_triple,index):
+    """ Prints out a Pythagorean triple and checks vs an index. """
+    print(f"A pythagorean triple for index of {index} is:")
+    print(f"a: {p_triple[0]}"
+      + f" b: {p_triple[1]}"
+      + f" c: {p_triple[2]}")
+    print(f"The sum is {sum(p_triple)}"
+      + f" which is {'valid' if index==sum(p_triple) else 'not valid'}")
+    print(f"The product is {list_product(p_triple)}")
+def find_pythagorean_triple(i=1000):
+    """
+    Finds Pythagorean triples with a given index
+
+    i = index, or sum of a, b, and c (integer)
+
+    Currently it is only set up to find a single triple per index.
+    If more are needed, just append them to a list instead.
+
+    It uses formulas from p09.py:
+    let x = avg(a,b)
+    let y be an offset from x.
+    (x-y)**2 + (x+y)**2 = c**2
+    Solving for y gives:
+    y**2 = ((c**2 - 2*x**2)/2)
+    """
+    pythagoreanTriple = [0,0,0]
+    for c in range(int(i/2 - 0.5*i**0.5 + 1),int(i*(2**0.5-1)),-1):
+        # Starting range logic:
+        # c is at most index/2
+        # but that would mean a = 0, b = c. trivial.
+        # We want a < b < c and all integers.
+        # If b is super large, it could be almost as big as c,
+        # however, a can't be too tiny because it needs to be
+        # able to help b**2 become c**2.
+        # The smallest a that could do that is (2b)**0.5
+        # So b and c will split the loss of (2b)**0.5
+        # b is trying to be i/2, so the total loss is i**0.5.
+        # Split each way that is 0.5*i**0.5
+        # c must be bigger than b, hence the +1.
+        #
+        # If a=b, then c is a minimum.
+        # x**2 + x**2 = c**2
+        # solving for c with a+b+c=i gives:
+        # c = (2**0.5 - 1)*i
+        #
+        # With these two range restrictions, the search is much smaller
+        # from a max of ~50% of i, to a low of ~41.4% of i.
+        # instead of searching all of i, only about 8.5% is searched.
+        x = (i - c)/2
+        y2 = ((c**2 - 2*x**2)/2)
+        if y2 < 0:
+            #can't square root a negative number here.
+            continue
+        y = y2**0.5
+        #print(f"y={y} c={c} x={x} i-c%2/2={((i-c)%2)/2}")
+        if y%1 == ((i-c)%2)/2:
+            # y = integer if i-c is even, or int + 0.5 if odd.
+            pythagoreanTriple = [int(x-y), int(x+y), int(c)]
+            break
+    return pythagoreanTriple
+def max_product_slice(list,size):
+    """
+    Finds largest product of all slices of the list.
+
+    list -- list of digits (string or list)
+    size -- size of slice to take (integer)
+
+    """
+    max = 0;
+    product = 0;
+    for x in range(len(list)-size+1): # size is inclusive, so we need +1
+        product = list_product(list[x:x+size])
+        if product > max: max = product
+    return max
+def list_product(list):
+    """ Calculates numbers list product. """
+    val = 1
+    for x in list:
+        val *= int(x)
+    return val
 def ordinal(i):
     """ Returns the ordinal ending, e.g. 'st' for 1"""
     ending = { 1:"st",
                2:"nd",
                3:"rd"}
-    if castNumber(i):
+    if cast_number(i):
         i = int(float(i))
         if i%100>3 and i%100<14:
             return "th"
         return ending.get(i%10,"th")
     else:
         return ""
-def sum_square_difference(numList):
+def sum_square_difference(num_list):
     """
     Sum square difference of a list
 
@@ -20,28 +161,28 @@ def sum_square_difference(numList):
     the sum of the squares.
     e.g. (a+b+c)**2 - (a**2 + b**2 + c**2)
     """
-    square_sum_all = sum(numList)**2
+    square_sum_all = sum(num_list)**2
     sum_squares = 0
-    for x in numList:
+    for x in num_list:
         sum_squares += x**2
     return square_sum_all - sum_squares
-def lcm(numList):
+def lcm(num_list):
     """
     Find lowest common multiple of number list
 
-    numList - list of integers to use
+    num_list - list of integers to use
 
     Will factor each number in the list,
-    then find LCM using dictionaryProduct.
+    then find LCM using dictionary_product.
     """
-    primeList = generatePrimes(max(numList))
+    primeList = generate_primes(max(num_list))
     # Initialize the factor dictionary to 0:
     primeDict = dict.fromkeys(primeList,0)
-    for x in numList: # will stop at maxNum
-        primeDict = primeFactor(x,primeDict)
+    for x in num_list: # will stop at maxNum
+        primeDict = prime_list_factor(x,primeDict)
         #print(primeDict)
-    return dictionaryProduct(primeDict)
-def dictionaryProduct(numDict):
+    return dictionary_product(primeDict)
+def dictionary_product(numDict):
     """
     Find the product of dictionary: key**value
 
@@ -55,7 +196,7 @@ def dictionaryProduct(numDict):
     for x in numDict:
         product *= x ** numDict[x]
     return product
-def primeFactor(num, prime_dict_original):
+def prime_list_factor(num, prime_dict_original):
     """
     Factors given number using prime dictionary
 
@@ -85,7 +226,7 @@ def primeFactor(num, prime_dict_original):
                           # this is like a remainder in the event
                           # primeList was incomplete
     return prime_dict
-def findMaxPalindrome(digits):
+def find_max_palindrome(digits):
     from classes import ProductPalindrome
     """
     Finds largest product that is a palindrome
@@ -96,7 +237,7 @@ def findMaxPalindrome(digits):
     Not guaranteed to be the largest, but likely to be.
     """
     # TODO: Write a function to find all palindromes.
-    digits = int(castNumber(digits))
+    digits = int(cast_number(digits))
     if not digits:
         digits = 3 # use 3 as default if invalid digit given.
     maxNum = int("9"*digits) # all 9s is max value
@@ -118,7 +259,7 @@ def findMaxPalindrome(digits):
         y = i - x
         # x + y = i
         while(y <= maxNum):
-            if isPalindrome(x*y):
+            if is_palindrome(x*y):
                 solved = True
                 break
             x -= 1
@@ -127,7 +268,7 @@ def findMaxPalindrome(digits):
             break
         i -= 1
     return ProductPalindrome(x,y)
-def isPalindrome(s):
+def is_palindrome(s):
     """ Checks to see if passed string/number is a palindrome """
     s = str(s)
     # Old method - more memory efficient?
@@ -138,7 +279,7 @@ def isPalindrome(s):
     #    i += 1
     #return True
     return s == s[::-1]
-def generateNPrimes(nthPrime):
+def generate_n_primes(nthPrime):
     """
     Generates a list of n primes
 
@@ -159,49 +300,45 @@ def generateNPrimes(nthPrime):
 
     while(len(primeList)<nthPrime):
         primeCandidate += 6
-        if checkPrime(primeCandidate-1,primeList):
+        if check_prime(primeCandidate-1,primeList):
             primeList.append(primeCandidate-1)
-        if checkPrime(primeCandidate+1,primeList):
+        if check_prime(primeCandidate+1,primeList):
             primeList.append(primeCandidate+1)
 
     # might have generated 1 extra prime above nthPrime
     if len(primeList) > nthPrime:
         primeList.pop(-1)
     return primeList
-def generatePrimes(maxPrime):
+def generate_primes(max_prime):
     """
     Generates a list of primes up to a maximum value
 
     maxPrime -- Largest acceptable value (integer)
     returns the list of primes < maxPrime
     """
-    maxPrime = int(maxPrime)
+    max_prime = int(max_prime)
     primeList = []
-    primeCandidates = []
-    if 2 < maxPrime:
+    primeCandidate = 0
+    if 2 <= max_prime:
         primeList.append(2)
     else:
         return primeList
-
-    if 3 < maxPrime:
+    if 3 <= max_prime:
         primeList.append(3)
     else:
         return primeList
-
-    primeCandidates = list({*range(6,maxPrime+1,6)})
-    primeCandidates.sort()
-
-    for x in primeCandidates:
-        if checkPrime(x-1,primeList):
-            primeList.append(x-1)
-        if checkPrime(x+1,primeList):
-            primeList.append(x+1)
-    # might have generated 1 extra prime above maxPrime
-
-    if primeList[len(primeList)-1] > maxPrime:
+    while(primeList[-1] < max_prime and primeCandidate+5 <= max_prime):
+        # +5 because we are going to add 6 then subtract 1.
+        primeCandidate += 6
+        if check_prime(primeCandidate-1,primeList):
+            primeList.append(primeCandidate-1)
+        if check_prime(primeCandidate+1,primeList):
+            primeList.append(primeCandidate+1)
+    # might have generated 1 extra prime above max_prime
+    if primeList[-1] > max_prime:
         primeList.pop(-1)
     return primeList
-def checkPrime(num, primes=None):
+def check_prime(num, primes=None):
     """
     Checks number to see if it is prime
 
@@ -235,7 +372,7 @@ def checkPrime(num, primes=None):
             if num % (x+1) == 0:
                 return False
     return True
-def LPF(num):
+def largest_prime_factor(num):
     """
     Gets largest prime factor
 
@@ -243,25 +380,25 @@ def LPF(num):
     """
     num = int(num)
     sqrtNum = int(num ** 0.5)
-    primes = generatePrimes(sqrtNum)
+    primes = generate_primes(sqrtNum)
     largest = -1
     for x in primes:
         if num % x == 0 and x > largest:
             largest = x
     return largest
-def testArgs(args):
+def test_args(args):
     """ Tests an argument list and prints results. """
     print(str(len(args)) + " arguments.")
     i = 0
     x = 0
     output = 0
     while(i < len(args)):
-        x = castNumber(args[i])
+        x = cast_number(args[i])
         output = str(x if is_floatstring(args[i]) else args[i])
         output += " " + str(type(x if is_floatstring(args[i]) else args[i]))
         print(output)
         i += 1
-def castNumber(n):
+def cast_number(n):
     """ Casts given string as a number - int or float as required. """
     if type(n) == type(""):
         if is_intstring(n): # "5.4" gives False
