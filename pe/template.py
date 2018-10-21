@@ -1,36 +1,19 @@
 #!/usr/bin/env python3
-
+# Project Euler problem __
+# Explanation ...
 
 
 import sys
 
+from functions import cast_number
+
 def main(args):
-    if(len(args)>1):
+    ARGUMENT = 0
+    if(len(args)>1 and cast_number(args[1])):
         # Use passed arguments
+        ARGUMENT = int(float(args[1]))
     else:
         # Use default parameters
-
-def cast_number(n):
-    if is_intstring(n):
-        return int(n)
-    elif is_floatstring(n):
-        return float(n)
-    else:
-        return None
-
-def is_floatstring(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-def is_intstring(s):
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
+        ARGUMENT = 1
 
 main(sys.argv)
