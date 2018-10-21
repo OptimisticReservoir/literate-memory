@@ -25,7 +25,11 @@
 # So we can set c**2 - 2x**2 = 2y**2 and solve for y.
 
 import sys
-import time
+from time import time
+
+from functions import cast_number
+from functions import print_pythagorean_triple
+from functions import find_pythagorean_triple
 
 def main(args):
     index = 0
@@ -34,24 +38,29 @@ def main(args):
         index = int(float(args[1]))
     else:
         index = 1000
-    t_start = time.time()
     result = find_pythagorean_triple(index)
     print_pythagorean_triple(result,index)
-    t_1 = time.time()
+
+
+def timed_run(index):
+    t_start = time()
+    result = find_pythagorean_triple(index)
+    print_pythagorean_triple(result,index)
+    t_1 = time()
+    print(f"My solution took {t_1-t_start}")
     result = other_find_pythagorean_triple(index)
     print_pythagorean_triple(result,index)
-    t_2 = time.time()
-    print(f"My solution took {t_1-t_start}"
-      + f" and other solution took {t_2-t_1}")
+    t_2 = time()
+    print(f" and other solution took {t_2-t_1}")
 
-
+# This doesn't always work.
+# This was taken from the Project Euler forums.
 def other_find_pythagorean_triple(i=1000):
     for triple in triple_generator(i):
         if sum(triple) == i:
             #print("(\{x\}/\{y\}) =>"+f" {triple}, {sum(triple)}")
             return triple
     return [0,0,0]
-
 def triple_generator(i=1000):
     # Generates pythagorean triples
     limit = int((i/2)**0.5)+5
@@ -59,60 +68,8 @@ def triple_generator(i=1000):
         for m in range(n, limit):
             triple = [m**2 - n**2, 2*m*n, m**2 + n**2]
             if sum(triple) <= i:
-                yield [int(m**2 - n**2), int(2*m*n), int(m**2 + n**2)]
-
-def print_pythagorean_triple(p_triple,index):
-    print(f"A pythagorean triple for index of {index} is:")
-    print(f"a: {p_triple[0]}"
-      + f" b: {p_triple[1]}"
-      + f" c: {p_triple[2]}")
-    print(f"The sum is {sum(p_triple)}"
-      + f" which is {'valid' if index==sum(p_triple) else 'not valid'}")
-    print(f"The product is {list_product(p_triple)}")
-
-def find_pythagorean_triple(i=1000):
-    pythagoreanTriple = [0,0,0]
-    for c in range(int(i/2 - 0.1),1,-1):
-        x = (i - c)/2
-        y2 = ((c**2 - 2*x**2)/2)
-        if y2 < 0:
-            #can't square root a negative number here.
-            continue
-        y = y2**0.5
-        #print(f"y={y} c={c} c%2/2={(c%2)/2}")
-        if y%1 == (c%2)/2:
-            # y = integer if c is even, or int + 0.5 if odd.
-            pythagoreanTriple = [int(x-y), int(x+y), int(c)]
-            break
-    return pythagoreanTriple
-
-def list_product(list):
-    val = 1
-    for x in list:
-        val *= int(x)
-    return val
-
-def cast_number(n):
-    if is_intstring(n):
-        return int(n)
-    elif is_floatstring(n):
-        return float(n)
-    else:
-        return None
-
-def is_floatstring(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-def is_intstring(s):
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
+                yield [int(m**2 - n**2),
+                       int(2*m*n),
+                       int(m**2 + n**2)]
 
 main(sys.argv)
