@@ -40,7 +40,7 @@ def main(args):
         if current_list:
             match_list.append(b_days.copy())
             b_days.clear()
-        if counter>33000000: break
+        if counter>10000: break
     for i in match_list:
         #print(i)
         lengths.append(len(i))
@@ -82,7 +82,9 @@ def check_b_day_match(list,matches,tolerance,year_len):
 
 def generate_birthdays(year_len):
     random.seed()
+    # r = random.SystemRandom()
     while(1):
+        # yield r.randrange(year_len)
         yield random.randrange(year_len)
 
 main(sys.argv)
