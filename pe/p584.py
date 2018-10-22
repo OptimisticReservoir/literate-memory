@@ -17,7 +17,6 @@
 
 import sys
 import random
-from time import time
 
 from functions import cast_number
 
@@ -82,7 +81,7 @@ def check_b_day_match(list,matches,tolerance,year_len):
     return []
 
 def generate_birthdays(year_len):
-    random.seed(time()*time())
+    random.seed()
     while(1):
         yield random.randrange(year_len)
 
