@@ -41,7 +41,7 @@ def main(args):
         if current_list:
             match_list.append(b_days.copy())
             b_days.clear()
-        if counter>33000: break
+        if counter>33000000: break
     for i in match_list:
         #print(i)
         lengths.append(len(i))
@@ -50,6 +50,10 @@ def main(args):
     + f"in a year {year_len} days long.")
     print(f"After {len(lengths)} trials,"
     + f" the result is {sum(lengths)/len(lengths)}.")
+    fd = open("results_584.csv","a")
+    run_conditions = f"{matches}_{tolerance}_{year_len}"
+    fd.write(f"{run_conditions},{sum(lengths)},{len(lengths)}")
+
 
 def is_within_x_wrap(a,b,x=0,mod=0):
     if mod:
