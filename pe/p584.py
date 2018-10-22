@@ -51,7 +51,7 @@ def main(args):
     + f" the result is {sum(lengths)/len(lengths)}.")
     fd = open("results_584.csv","a")
     run_conditions = f"{matches}_{tolerance}_{year_len}"
-    fd.write(f"{run_conditions},{sum(lengths)},{len(lengths)}")
+    fd.write(f"{run_conditions},{sum(lengths)},{len(lengths)}{nl}")
 
 
 def is_within_x_wrap(a,b,x=0,mod=0):
