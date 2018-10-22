@@ -8,12 +8,10 @@ import sys
 from functions import cast_number
 
 def main(args):
-    ARGUMENT = 0
-    if(len(args)>1 and cast_number(args[1])):
-        # Use passed arguments
-        ARGUMENT = int(float(args[1]))
-    else:
-        # Use default parameters
-        ARGUMENT = 1
+    c_n = cast_number # shortcut for large lambda to fit on 1 line.
+    arg_f = lambda a, i, d: c_n(a[i]) if len(a)>i and c_n(a[i]) else d
+    ARGUMENT1 = arg_f(args,1,10)
+    ARGUMENT2 = arg_f(args,2,10)
+    ARGUMENT3 = arg_f(args,3,10)
 
 main(sys.argv)
