@@ -409,14 +409,16 @@ def cast_number(n):
         return n # no casting needed
     return None
 def get_boolstring(s):
+    """ Attempts to cast input to boolean. Return None if failed. """
     if type(s) == type(True):
         # s is already bool
         return s
     elif type(s) == type("string"):
         # s is string
-        if s.lower()[0:4] == "true":
+        s = s.lower()
+        if s[0:4] == "true":
             return True
-        elif s.lower()[0:5] == "false":
+        elif s[0:5] == "false":
             return False
         else:
             return None
@@ -429,6 +431,26 @@ def get_boolstring(s):
     else:
         # s isn't simple:
         return None
+def is_boolstring(s):
+    """ Tests if input is a boolean. """
+    if type(s) == type(True):
+        # s is already bool
+        return True
+    elif type(s) == type("string"):
+        # s is string
+        s = s.lower()
+        if s[0:4] == "true":
+            return True
+        elif s[0:5] == "false":
+            return True
+        else:
+            return False
+    elif type(s) == type(0) or type(s) == type(0.0):
+        # s is number
+        return True
+    else:
+        # s isn't simple:
+        return False
 def is_floatstring(s):
     """ Tests if string is a float. """
     try:
