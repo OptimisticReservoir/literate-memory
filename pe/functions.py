@@ -408,6 +408,27 @@ def cast_number(n):
     elif type(n) == type(5.0) or type(n) == type(5):
         return n # no casting needed
     return None
+def get_boolstring(s):
+    if type(s) == type(True):
+        # s is already bool
+        return s
+    elif type(s) == type("string"):
+        # s is string
+        if s.lower()[0:4] == "true":
+            return True
+        elif s.lower()[0:5] == "false":
+            return False
+        else:
+            return None
+    elif type(s) == type(0) or type(s) == type(0.0):
+        # s is number
+        if s:
+            return True
+        else:
+            return False
+    else:
+        # s isn't simple:
+        return None
 def is_floatstring(s):
     """ Tests if string is a float. """
     try:
