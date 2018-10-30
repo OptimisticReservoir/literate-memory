@@ -15,6 +15,9 @@ def main(args):
     else:
         nthPrime = 10001
     primes = generate_n_primes(nthPrime)
+    if nthPrime <= 100:
+        for p in primes:
+            print(p)
     print("The " + str(nthPrime) + ordinal(nthPrime)
           + " is " + str(primes[-1]))
 
