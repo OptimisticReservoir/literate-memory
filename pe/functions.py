@@ -398,6 +398,56 @@ def test_args(args):
         output += " " + str(type(x if is_floatstring(args[i]) else args[i]))
         print(output)
         i += 1
+def lookup_best_byte_size(mod):
+    # XXX: The XXX tag means that byte_size is only so-so
+    # It will probably need a bigger one.
+    # I checked up to 128 and I couldn't find a better option.
+    lookup_table = {
+11:60,14:62,18:61,22:59,23:55,25:60,28:61,31:60,33:60,
+36:61,38:61,41:60,42:61,44:59,46:62,47:46,50:61,52:62, # XXX:
+53:52,54:61,55:60,58:60, # XXX:
+59:58,61:50,62:62,66:59,67:33,69:55,70:62, # XXX:
+71:35,72:62, # XXX:
+74:57, # XXX:
+75:60,76:61,77:60,78:62, # XXX:
+79:39,81:54,82:61, # XXX:
+83:41,84:61,86:58,89:55,90:62, # XXX:
+92:58,93:60,94:49,97:60,98:50,99:60,101:50,103:51,104:62, # XXX:
+106:58 # XXX:
+    }
+    return lookup_table.get(mod,63)
+def print_best_byte_sizes(width):
+        from functions import best_byte_size
+        results = {}
+        bbs = []
+        for x in range(2,width+1):
+            bbs = best_byte_size(x)
+            results[x] = max(i for i in bbs if i<64 or len(bbs)<4)
+            #results[x] = min(i for i in bbs if (i<128 and i>20) or len(bbs)<4)
+            #print(f"{x}: size:{bbs}")
+        for x in results:
+            if 256**results[x]%x > 16:
+                print(f"{x:3}: {results[x]:3} --- {256**results[x]%x}")
+def best_byte_size(mod):
+    min_mod = float("inf") # set to infinitely large
+    best = []
+    MIN_READ = 4
+    MAX_READ = 128 # max bytes to read at once.
+    BYTE_VALUE = 256 # bytes are base 256
+    for x in range(MIN_READ,MAX_READ+1):
+        n = BYTE_VALUE**x % mod
+        if n < min_mod:
+            min_mod = n
+            best = [x]
+        elif n == min_mod:
+            best.append(x)
+    return best
+def bytes_to_int(byte_arr):
+    BYTE_VALUE = 256 # bytes are base 256
+    s = 0 #sum
+    for i,n in enumerate(byte_arr):
+        s += n * BYTE_VALUE**i
+    return s
 def cast_number(n):
     """ Casts given string as a number - int or float as required. """
     if type(n) == type(""):
