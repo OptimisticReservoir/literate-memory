@@ -8,6 +8,7 @@ import sys
 def main(args):
     if(len(args)>1):
         # Use passed arguments
+        print("null")
     else:
         # Use default parameters
 
