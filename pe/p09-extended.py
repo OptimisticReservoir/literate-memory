@@ -24,7 +24,7 @@ def main(args):
 
 def count_pythagorean_bastards(i=1000):
     b_list = list_pythagorean_bastards(i)
-    print_pythagorean_bastard_list(b_list)
+    #print_pythagorean_bastard_list(b_list)
     return len(b_list)
 
 def list_pythagorean_bastards(index_limit):
