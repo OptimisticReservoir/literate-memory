@@ -34,8 +34,8 @@ def main(args):
             card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
         chance_to_get_this_card = card_draw_list.sum().round(3)
         chance_to_get_cards.append(f"{'' if 100 * chance_to_get_this_card == 100 else ' '}{100 * chance_to_get_this_card:.1f}%")
-        weeks_to_get_this_card = 1 + list_cumsum_threshold(card_draw_list.T.tolist()[0],weeks_to_get_cards_probability_cutoff)
-        weeks_to_get_cards.append("Unlikely" if weeks_to_get_this_card == -1 else weeks_to_get_this_card)
+        weeks_to_get_this_card = list_cumsum_threshold(card_draw_list.T.tolist()[0],weeks_to_get_cards_probability_cutoff)
+        weeks_to_get_cards.append("Unlikely" if weeks_to_get_this_card == -1 else weeks_to_get_this_card + 1) # array starts at 0.
         print(f"Chance to get card {j+1}: {chance_to_get_cards[j]}. Weeks: {weeks_to_get_cards[j]}")
         #print(f"{j+1}: {card_draw_list.round(2).T}")
         #print(f"Card {j+1} gives a card_draw_list of: {card_draw_list.round(3).T}")
