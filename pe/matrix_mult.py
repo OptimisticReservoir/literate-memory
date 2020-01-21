@@ -19,15 +19,21 @@ def main(args):
     for j in range(unique_cards):
         unique_p = (unique_cards - j)/unique_cards
         prob_dist = geo_dist(unique_p,bm_weeks)
-        print(f"Week {j} gives a prob_dist of:")
-        print(prob_dist)
+        # prob_dist = list_shift_replace(geo_dist(unique_p,bm_weeks),j)
+        # print(f"Week {j} gives a prob_dist of:")
+        # print(prob_dist)
         xform_mat = np.mat(build_stair_matrix(prob_dist, bm_weeks))
-        card_draw_list = xform_mat @ card_draw_list
-        print(f"Week {j} gives a card list of:")
-        print(card_draw_list)
-        print(f"Week {j} gives a prob_dist of:")
-        print(xform_mat)
-        wait = input("PRESS ENTER TO CONTINUE.")
+        card_draw_list = xform_mat.T @ card_draw_list
+        if j > 0:
+            card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
+        if j == 2: # problems getting the second card.
+            card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
+        print(f"{j+1}: {card_draw_list.round(2).T}")
+        #print(f"Card {j+1} gives a card_draw_list of: {card_draw_list.round(3).T}")
+        # print(f"Week {j} gives a xform_mat of:")
+        # # print(xform_mat)
+        #
+        # wait = input("PRESS ENTER TO CONTINUE.")
 
 def geo_dist(p,n):
     g_dist = []
@@ -37,10 +43,12 @@ def geo_dist(p,n):
 
 def build_stair_matrix(step_array_ref,stair_width):
     # don't change the original
-    step_array = step_array_ref
+    step_array = step_array_ref.copy()
     stair_matrix = []
     for i in range(stair_width):
-        stair_matrix.append(step_array)
+        stair_matrix.append(step_array.copy())
+        # print(np.mat(stair_matrix))
+        # wait = input("PRESS ENTER TO CONTINUE.")
         # Shift the array down 1 with a leading 0.
         step_array.pop()
         step_array.insert(0,0)
@@ -48,7 +56,7 @@ def build_stair_matrix(step_array_ref,stair_width):
 
 def list_shift_replace(list_ref, shifts, new_val=0):
     #don't change the original
-    list = list_ref
+    list = list_ref.copy()
     for i in range(shifts):
         list.insert(0,new_val)
         list.pop()
