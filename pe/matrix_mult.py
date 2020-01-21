@@ -16,6 +16,9 @@ def main(args):
     ARGUMENT3 = arg_f(args,3,cast_number,"default 3")
 
     card_draw_list = np.eye(bm_weeks,1)
+    chance_to_get_cards = []
+    weeks_to_get_cards = []
+    weeks_to_get_cards_probability_cutoff = 0.8
     for j in range(unique_cards):
         unique_p = (unique_cards - j)/unique_cards
         prob_dist = geo_dist(unique_p,bm_weeks)
@@ -26,14 +29,21 @@ def main(args):
         card_draw_list = xform_mat.T @ card_draw_list
         if j > 0:
             card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
+        # XXX: experimental data below.
         if j == 2: # problems getting the second card.
             card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
-        print(f"{j+1}: {card_draw_list.round(2).T}")
+        chance_to_get_this_card = card_draw_list.sum().round(3)
+        chance_to_get_cards.append(f"{'' if 100 * chance_to_get_this_card == 100 else ' '}{100 * chance_to_get_this_card:.1f}%")
+        weeks_to_get_this_card = 1 + list_cumsum_threshold(card_draw_list.T.tolist()[0],weeks_to_get_cards_probability_cutoff)
+        weeks_to_get_cards.append("Unlikely" if weeks_to_get_this_card == -1 else weeks_to_get_this_card)
+        print(f"Chance to get card {j+1}: {chance_to_get_cards[j]}. Weeks: {weeks_to_get_cards[j]}")
+        #print(f"{j+1}: {card_draw_list.round(2).T}")
         #print(f"Card {j+1} gives a card_draw_list of: {card_draw_list.round(3).T}")
         # print(f"Week {j} gives a xform_mat of:")
         # # print(xform_mat)
         #
         # wait = input("PRESS ENTER TO CONTINUE.")
+    print(f"Total chance to find all cards before season end: {chance_to_get_cards[unique_cards-1]}")
 
 def geo_dist(p,n):
     g_dist = []
@@ -61,5 +71,17 @@ def list_shift_replace(list_ref, shifts, new_val=0):
         list.insert(0,new_val)
         list.pop()
     return list
+
+def list_cumsum_threshold(list,threshold):
+    #print(list)
+    threshold_not_reached = -1
+    cumsum = 0
+    for i in range(len(list)):
+        cumsum += list[i]
+        #print(f"{cumsum} and {list[i]}")
+        if cumsum >= threshold:
+            return i
+    return threshold_not_reached
+
 
 main(sys.argv)
