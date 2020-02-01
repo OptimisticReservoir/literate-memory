@@ -13,7 +13,6 @@ def main(args):
     arg_f = lambda a, i, f, d: f(a[i]) if len(a)>i and f(a[i]) != None else d
     unique_cards = arg_f(args,1,cast_number,9)
     bm_weeks = arg_f(args,2,cast_number,24)
-    ARGUMENT3 = arg_f(args,3,cast_number,"default 3")
 
     card_draw_list = np.eye(bm_weeks,1)
     chance_to_get_cards = []
@@ -30,8 +29,8 @@ def main(args):
         if j > 0:
             card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
         # XXX: experimental data below.
-        if j == 2: # problems getting the second card.
-            card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
+        # if j == 2 or j == 4: # problems getting the second and fourth card.
+        #    card_draw_list = np.mat(list_shift_replace(card_draw_list.tolist(),1,[0]))
         chance_to_get_this_card = card_draw_list.sum().round(3)
         chance_to_get_cards.append(f"{'' if 100 * chance_to_get_this_card == 100 else ' '}{100 * chance_to_get_this_card:.1f}%")
         weeks_to_get_this_card = list_cumsum_threshold(card_draw_list.T.tolist()[0],weeks_to_get_cards_probability_cutoff)
